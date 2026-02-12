@@ -28,7 +28,7 @@ CREATE TABLE `skills` (
   `skill_detail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `proficiency` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `skills` (
 
 LOCK TABLES `skills` WRITE;
 /*!40000 ALTER TABLE `skills` DISABLE KEYS */;
-INSERT INTO `skills` VALUES (1,'Languages','Indonesian','100'),(2,'Languages','English','100'),(3,'Languages','Mandarin','45'),(4,'Coding','HTML','90'),(5,'Coding','CSS','85'),(6,'Coding','JavaScript','80'),(7,'Coding','Java','75'),(8,'Coding','PHP','65'),(9,'Coding','Python','90'),(10,'Coding','Kotlin','55'),(11,'Coding','MySQL','65'),(12,'Organization','Time Management','75'),(13,'Organization','File Management','80');
+INSERT INTO `skills` VALUES (1,'Languages','Indonesian','100'),(2,'Languages','English','100'),(3,'Languages','Mandarin','45'),(4,'Coding','HTML','90'),(5,'Coding','CSS','85'),(6,'Coding','JavaScript','80'),(7,'Coding','Java','75'),(8,'Coding','PHP','65'),(9,'Coding','Python','90'),(10,'Coding','Kotlin','55'),(11,'Coding','MySQL','65'),(12,'Crafting','Crochet','90'),(13,'Crafting','Knitting','80'),(14,'Crafting','Embroidery','75'),(15,'Organization','Time Management','75'),(16,'Organization','File Management','80');
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-02-12  5:50:47
+-- Dump completed on 2026-02-12  6:06:16
