@@ -99,6 +99,9 @@ require_once 'config/database.php';
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <!-- Skills AJAX Auto-Refresh -->
+  <script src="assets/js/skills-ajax.js"></script>
+
 </body>
 
 </html>

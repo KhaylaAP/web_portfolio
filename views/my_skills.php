@@ -12,7 +12,8 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
     <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
         <h2>My Skills</h2>
-        <p>An overview of my skills:/p>
+        <p>An overview of my skills:</p>
+        
     </div><!-- End Section Title -->
 
     <div class="container">
@@ -37,9 +38,9 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
         </div>
 
         <!-- Skills Content - Data dari Database -->
-        <div class="row g-4">
+        <div class="row g-4" id="skills-container">
             <!-- Languages Column -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6" id="skills-languages-column">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
@@ -62,7 +63,7 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
             </div>
 
             <!-- Coding Column -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6" id="skills-coding-column">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
@@ -85,7 +86,7 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
             </div>
 
             <!-- Crafting Column -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6" id="skills-crafting-column">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
@@ -97,7 +98,7 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
                             <li class="mb-2 pb-1 border-bottom">
                                 <i class="bi bi-check-circle-fill text-success me-2"></i>
                                 <strong><?php echo htmlspecialchars($skill['skill_detail']); ?></strong>
-                                <span class="badge bg-warning text-dark rounded-pill float-end">
+                                <span class="badge bg-primary text-dark rounded-pill float-end">
                                     <?php echo $skillFunc->formatProficiency($skill['proficiency']); ?>
                                 </span>
                             </li>
@@ -108,7 +109,7 @@ $organizationSkills = $skillFunc->getOrganizationSkills();
             </div>
 
             <!-- Organization Column -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-3 col-md-6" id="skills-organization-column">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
