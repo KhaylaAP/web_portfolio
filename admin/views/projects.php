@@ -4,395 +4,475 @@ require_once '../../config/database.php';
 
 $database = new Database();
 $conn = $database->getConnection();
-
-$projects = [];
-if ($conn) {
-    try {
-        $query = "SELECT * FROM projects ORDER BY id DESC";
-        $stmt = $conn->query($query);
-        if ($stmt) {
-            $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-    } catch (PDOException $e) {
-        $error = "Database error: " . $e->getMessage();
-    }
-}
 ?>
 
 <!doctype html>
 <html lang="en">
-  <!--begin::Head-->
-  <head>
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AdminLTE v4 | Projects</title>
-    <!--begin::Accessibility Meta Tags-->
+    <title>AdminLTE v4 | Projects Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
-    <!--end::Accessibility Meta Tags-->
-    <!--begin::Primary Meta Tags-->
-    <meta name="title" content="AdminLTE v4 | Projects" />
-    <meta name="author" content="ColorlibHQ" />
-    <meta
-      name="description"
-      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
-    />
-    <!--end::Primary Meta Tags-->
-    <!--begin::Accessibility Features-->
-    <meta name="supported-color-schemes" content="light dark" />
-    <link rel="preload" href="../css/adminlte.css" as="style" />
-    <!--end::Accessibility Features-->
-    <!--begin::Fonts-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      crossorigin="anonymous"
-      media="print"
-      onload="this.media='all'"
-    />
-    <!--end::Fonts-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(OverlayScrollbars)-->
-    <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-      crossorigin="anonymous"
-    />
-    <!--end::Third Party Plugin(Bootstrap Icons)-->
-    <!--begin::Required Plugin(AdminLTE)-->
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous" />
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+    
+    <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="../css/adminlte.css" />
-    <!--end::Required Plugin(AdminLTE)-->
-  </head>
-  <!--end::Head-->
-  <!--begin::Body-->
-  <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
-    <!--begin::App Wrapper-->
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    
+    <style>
+        .modal-dialog {
+            max-width: 700px;
+        }
+        .modal-content {
+            border-radius: 8px;
+        }
+        .note-editor.note-frame {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        .dt-buttons {
+            margin-bottom: 10px;
+        }
+        .project-image-preview {
+            max-width: 100px;
+            max-height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        /* Toastr customization */
+        .toast-success {
+            background-color: #28a745 !important;
+        }
+        .toast-error {
+            background-color: #dc3545 !important;
+        }
+        .toast-warning {
+            background-color: #ffc107 !important;
+        }
+    </style>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
     <div class="app-wrapper">
-      <!--begin::Header-->
-      <nav class="app-header navbar navbar-expand bg-body">
-        <!--begin::Container-->
-        <div class="container-fluid">
-          <!--begin::Start Navbar Links-->
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                <i class="bi bi-list"></i>
-              </a>
-            </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
-          </ul>
-          <!--end::Start Navbar Links-->
-          <!--begin::End Navbar Links-->
-          <ul class="navbar-nav ms-auto">
-            <!--begin::Fullscreen Toggle-->
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
-                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
-              </a>
-            </li>
-            <!--end::Fullscreen Toggle-->
-            <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle"></i>
-                <span class="d-none d-md-inline">Admin</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <img
-                    src="../../assets/img/my-profile-img.jpg"
-                    class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  <p>Admin</p>
-                </li>
-                <!--end::User Image-->
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <a href="../logout.php" class="btn btn-default btn-flat float-end">Sign out</a>
-                </li>
-                <!--end::Menu Footer-->
-              </ul>
-            </li>
-            <!--end::User Menu Dropdown-->
-          </ul>
-          <!--end::End Navbar Links-->
-        </div>
-        <!--end::Container-->
-      </nav>
-      <!--end::Header-->
-      <!--begin::Sidebar-->
-      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-        <!--begin::Sidebar Brand-->
-        <div class="sidebar-brand">
-          <!--begin::Brand Link-->
-          <a href="../index.html" class="brand-link">
-            <!--begin::Brand Image-->
-            <img
-              src="../assets/img/AdminLTELogo.png"
-              alt="AdminLTE Logo"
-              class="brand-image opacity-75 shadow"
-            />
-            <!--end::Brand Image-->
-            <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE 4</span>
-            <!--end::Brand Text-->
-          </a>
-          <!--end::Brand Link-->
-        </div>
-        <!--end::Sidebar Brand-->
-        <!--begin::Sidebar Wrapper-->
-        <div class="sidebar-wrapper">
-          <nav class="mt-2">
-            <!--begin::Sidebar Menu-->
-            <ul
-              class="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="navigation"
-              aria-label="Main navigation"
-              data-accordion="false"
-              id="navigation"
-            >
-              <li class="nav-item">
-                <a href="../index.html" class="nav-link">
-                  <i class="nav-icon bi bi-speedometer"></i>
-                  <p>Dashboard</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./my_skills.php" class="nav-link">
-                  <i class="nav-icon bi bi-star"></i>
-                  <p>My Skills</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./projects.php" class="nav-link active">
-                  <i class="nav-icon bi bi-images"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-            </ul>
-            <!--end::Sidebar Menu-->
-          </nav>
-        </div>
-        <!--end::Sidebar Wrapper-->
-      </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-sm-6"><h3 class="mb-0">Projects</h3></div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Projects</li>
-                </ol>
-              </div>
+        <!-- Header -->
+        <nav class="app-header navbar navbar-expand bg-body">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                            <span class="d-none d-md-inline">Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <li class="user-header text-bg-primary">
+                                <img src="../../assets/img/my-profile-img.jpg" class="rounded-circle shadow" alt="User Image" />
+                                <p>Admin</p>
+                            </li>
+                            <li class="user-footer">
+                                <a href="../logout.php" class="btn btn-default btn-flat float-end">Sign out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content Header-->
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-md-12">
-                <div class="card mb-4">
-                  <div class="card-header d-flex align-items-center">
-                    <h3 class="card-title">Projects Management</h3>
-                    <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#addProjectModal">
-                      <i class="bi bi-plus-lg me-2"></i>Add New Project
-                    </button>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                    <?php if (isset($_GET['success'])): ?>
-                      <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> Operation completed successfully.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                      </div>
-                    <?php endif; ?>
-                    <?php if (isset($_GET['error'])): ?>
-                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong> Something went wrong. Please try again.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                      </div>
-                    <?php endif; ?>
-                    <?php if (isset($error)): ?>
-                      <div class="alert alert-danger" role="alert">
-                        <?php echo htmlspecialchars($error); ?>
-                      </div>
-                    <?php endif; ?>
-                    <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
-                          <th>Title</th>
-                          <th>Category</th>
-                          <th>Image</th>
-                          <th style="width: 140px">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php if (count($projects) > 0): ?>
-                          <?php foreach ($projects as $index => $project): ?>
-                            <tr class="align-middle">
-                              <td><?php echo $index + 1; ?></td>
-                              <td><?php echo htmlspecialchars($project['title']); ?></td>
-                              <td><?php echo htmlspecialchars($project['category']); ?></td>
-                              <td><small><?php echo htmlspecialchars($project['image']); ?></small></td>
-                              <td>
-                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProjectModal" onclick="editProject(<?php echo htmlspecialchars(json_encode($project)); ?>)">
-                                  <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteProject(<?php echo $project['id']; ?>)">
-                                  <i class="bi bi-trash"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          <?php endforeach; ?>
-                        <?php else: ?>
-                          <tr>
-                            <td colspan="5" class="text-center">No projects found. Add one to get started!</td>
-                          </tr>
-                        <?php endif; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- /.card-body -->
+        </nav>
+
+        <!-- Sidebar -->
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="../index.html" class="brand-link">
+                    <img src="../assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
+                    <span class="brand-text fw-light">AdminLTE 4</span>
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" id="navigation">
+                        <li class="nav-item">
+                            <a href="../index.html" class="nav-link">
+                                <i class="nav-icon bi bi-speedometer"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./my_skills.php" class="nav-link">
+                                <i class="nav-icon bi bi-star"></i>
+                                <p>My Skills</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./projects.php" class="nav-link active">
+                                <i class="nav-icon bi bi-images"></i>
+                                <p>Projects</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 class="mb-0">Projects Management</h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-end">
+                                <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                                <li class="breadcrumb-item active">Projects</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.card -->
-              </div>
             </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
-    </div>
-    <!--end::App Wrapper-->
 
-    <!-- Add Project Modal -->
-    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form action="../handlers/project_handler.php" method="POST">
-            <div class="modal-body">
-              <input type="hidden" name="action" value="add">
-              <div class="mb-3">
-                <label for="projectTitle" class="form-label">Project Title</label>
-                <input type="text" class="form-control" id="projectTitle" name="title" required>
-              </div>
-              <div class="mb-3">
-                <label for="projectCategory" class="form-label">Category</label>
-                <select class="form-control" id="projectCategory" name="category" required>
-                  <option value="">Select Category</option>
-                  <option value="Web">Web</option>
-                  <option value="Apps">Apps</option>
-                  <option value="Games">Games</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="projectImage" class="form-label">Image Filename</label>
-                <input type="text" class="form-control" id="projectImage" name="image" placeholder="e.g., web-1.png" required>
-              </div>
+            <div class="app-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Projects List</h3>
+                                    <div class="card-tools">
+                                        <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+                                            <i class="bi bi-plus-lg me-2"></i>Add New Project
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table id="projectsTable" class="table table-bordered table-striped w-100">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Image</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be loaded via AJAX -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Add Project</button>
-            </div>
-          </form>
-        </div>
-      </div>
+        </main>
     </div>
 
-    <!-- Edit Project Modal -->
-    <div class="modal fade" id="editProjectModal" tabindex="-1" aria-labelledby="editProjectModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editProjectModalLabel">Edit Project</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <form action="../handlers/project_handler.php" method="POST">
-            <div class="modal-body">
-              <input type="hidden" name="action" value="edit">
-              <input type="hidden" id="editProjectId" name="id">
-              <div class="mb-3">
-                <label for="editProjectTitle" class="form-label">Project Title</label>
-                <input type="text" class="form-control" id="editProjectTitle" name="title" required>
-              </div>
-              <div class="mb-3">
-                <label for="editProjectCategory" class="form-label">Category</label>
-                <select class="form-control" id="editProjectCategory" name="category" required>
-                  <option value="Web">Web</option>
-                  <option value="Apps">Apps</option>
-                  <option value="Games">Games</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label for="editProjectImage" class="form-label">Image Filename</label>
-                <input type="text" class="form-control" id="editProjectImage" name="image" required>
-              </div>
+    <!-- Add/Edit Project Modal -->
+    <div class="modal fade" id="projectModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">Add New Project</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="projectForm" enctype="multipart/form-data">
+                        <input type="hidden" id="projectId" name="id">
+                        
+                        <div class="mb-3">
+                            <label for="projectTitle" class="form-label">Project Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="projectTitle" name="title" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="projectDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="projectDescription" name="description" rows="4" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="projectCategory" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="projectCategory" name="category" placeholder="e.g., Websites, Apps, Games">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="projectImage" class="form-label">Image Path <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="projectImage" name="image" placeholder="e.g., assets/img/portfolio/web-1.png" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProject()">
+                        <i class="bi bi-save me-2"></i>Save Project
+                    </button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-          </form>
         </div>
-      </div>
     </div>
 
-    <!--begin::Third Party Plugin(jQuery)-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <!--end::Third Party Plugin(jQuery)-->
-    <!--begin::Bootstrap Bundle JS-->
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this project?</p>
+                    <p class="text-danger"><strong>This action cannot be undone!</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">
+                        <i class="bi bi-trash me-2"></i>Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Required Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!--end::Bootstrap Bundle JS-->
-    <!--begin::Required Plugin(AdminLTE)-->
+    
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Summernote -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    
+    <!-- AdminLTE -->
     <script src="../js/adminlte.js"></script>
-    <!--end::Required Plugin(AdminLTE)-->
 
     <script>
-      function editProject(project) {
-        document.getElementById('editProjectId').value = project.id;
-        document.getElementById('editProjectTitle').value = project.title;
-        document.getElementById('editProjectCategory').value = project.category;
-        document.getElementById('editProjectImage').value = project.image;
-      }
+        let projectsTable;
+        let deleteId = null;
+        
+        // Configure Toastr
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
 
-      function deleteProject(id) {
-        if (confirm('Are you sure you want to delete this project?')) {
-          window.location.href = '../handlers/project_handler.php?action=delete&id=' + id;
+        $(document).ready(function() {
+            initializeSummernote();
+            loadProjects();
+        });
+
+        function initializeSummernote() {
+            $('.summernote').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
         }
-      }
+
+        function loadProjects() {
+            if (projectsTable) {
+                projectsTable.destroy();
+            }
+
+            projectsTable = $('#projectsTable').DataTable({
+                processing: true,
+                serverSide: false,
+                searching: false,
+                ajax: {
+                    url: '../../admin/handlers/project_actions.php?action=list',
+                    type: 'GET',
+                    dataSrc: function(json) {
+                        return json;
+                    },
+                    error: function(xhr, error, thrown) {
+                        console.error('DataTable error:', error);
+                        toastr.error('Failed to load projects');
+                    }
+                },
+                responsive: true,
+                columns: [
+                    { data: 'id' },
+                    { data: 'title' },
+                    { 
+                        data: 'description',
+                        render: function(data) {
+                            return data ? data.substring(0, 100) + (data.length > 100 ? '...' : '') : '-';
+                        }
+                    },
+                    {
+                        data: 'image',
+                        render: function(data) {
+                            if (data) {
+                                return `<img src="../../${data}" class="project-image-preview" style="max-height: 50px;" onerror="this.src='../../assets/img/no-image.png'">`;
+                            }
+                            return '<span class="text-muted">No image</span>';
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data) {
+                            return `
+                                <button class="btn btn-warning btn-sm" onclick="openEditModal(${data.id})">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="openDeleteModal(${data.id})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            `;
+                        }
+                    }
+                ],
+                order: [[0, 'desc']],
+                pageLength: 10,
+                language: {
+                    processing: "Loading...",
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Showing 0 to 0 of 0 entries",
+                    infoFiltered: "(filtered from _MAX_ total entries)"
+                }
+            });
+        }
+
+        function openAddModal() {
+            $('#modalTitle').text('Add New Project');
+            $('#projectId').val('');
+            $('#projectTitle').val('');
+            $('#projectDescription').val('');
+            $('#projectCategory').val('');
+            $('#projectImage').val('');
+            $('#projectModal').modal('show');
+        }
+
+        function openEditModal(id) {
+            $.ajax({
+                url: `../handlers/project_actions.php?action=get&id=${id}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(project) {
+                    $('#modalTitle').text('Edit Project');
+                    $('#projectId').val(project.id);
+                    $('#projectTitle').val(project.title);
+                    $('#projectDescription').val(project.description);
+                    $('#projectCategory').val(project.category);
+                    $('#projectImage').val(project.image);
+                    $('#projectModal').modal('show');
+                },
+                error: function() {
+                    toastr.error('Failed to load project data');
+                }
+            });
+        }
+
+        function openDeleteModal(id) {
+            deleteId = id;
+            $('#deleteModal').modal('show');
+        }
+
+        $('#confirmDelete').click(function() {
+            if (deleteId) {
+                $.ajax({
+                    url: `../handlers/project_actions.php?action=delete&id=${deleteId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            toastr.success(response.message);
+                            projectsTable.ajax.reload(null, false);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                        $('#deleteModal').modal('hide');
+                        deleteId = null;
+                    },
+                    error: function() {
+                        toastr.error('Failed to delete project');
+                        $('#deleteModal').modal('hide');
+                        deleteId = null;
+                    }
+                });
+            }
+        });
+
+        function saveProject() {
+            // Validate form
+            if (!$('#projectTitle').val()) {
+                toastr.warning('Please enter project title');
+                return;
+            }
+            if (!$('#projectDescription').val()) {
+                toastr.warning('Please enter project description');
+                return;
+            }
+            if (!$('#projectImage').val()) {
+                toastr.warning('Please enter project image path');
+                return;
+            }
+
+            let formData = new FormData($('#projectForm')[0]);
+            formData.append('action', 'save');
+
+            $.ajax({
+                url: '../../admin/handlers/project_actions.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        toastr.success(response.message);
+                        $('#projectModal').modal('hide');
+                        projectsTable.ajax.reload(null, false);
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Save error:', xhr.responseText);
+                    toastr.error('Failed to save project');
+                }
+            });
+        }
+
+        // Reset form when modal is closed
+        $('#projectModal').on('hidden.bs.modal', function() {
+            $('#projectForm')[0].reset();
+            $('#projectDescription').val('');
+        });
     </script>
-  </body>
-  <!--end::Body-->
+</body>
 </html>
