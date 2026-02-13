@@ -20,6 +20,9 @@
         <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
         <li><a href="#skills"><i class="bi bi-stars"></i> My Skills</a></li>
       </ul>
+      <div class="nav-bottom">
+        <a href="admin/login.php" title="Admin"><i class="bi bi-person-circle"></i></a>
+      </div>
     </nav>
 
 </header>

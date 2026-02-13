@@ -361,6 +361,33 @@ h6 {
   background-color: rgba(33, 37, 41, 0.03);
 }
 
+.nav-bottom {
+  margin-top: auto;
+  padding: 15px 10px;
+  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  display: flex;
+  justify-content: center;
+}
+
+.nav-bottom a {
+  color: var(--nav-color);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  width: 50px;
+  height: 50px;
+}
+
+.nav-bottom a:hover {
+  color: var(--nav-hover-color);
+}
+
+.nav-bottom a i {
+  color: inherit;
+}
+
 /*--------------------------------------------------------------
 # Global Footer
 --------------------------------------------------------------*/

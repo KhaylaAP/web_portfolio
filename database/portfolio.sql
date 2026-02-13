@@ -40,6 +40,30 @@ LOCK TABLES `skills` WRITE;
 INSERT INTO `skills` VALUES (1,'Languages','Indonesian','100'),(2,'Languages','English','100'),(3,'Languages','Mandarin','45'),(4,'Coding','HTML','90'),(5,'Coding','CSS','85'),(6,'Coding','JavaScript','80'),(7,'Coding','Java','75'),(8,'Coding','PHP','65'),(9,'Coding','Python','90'),(10,'Coding','Kotlin','55'),(11,'Coding','MySQL','65'),(12,'Crafting','Crochet','90'),(13,'Crafting','Knitting','80'),(14,'Crafting','Embroidery','75'),(15,'Organization','Time Management','75'),(16,'Organization','File Management','80');
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` varchar(100) DEFAULT NULL,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('1','admin','$2y$12$E5Qbjc1HvgKCIV60gRXQ8OYWV2.SfVHjmvmoI43VfTrh72jZ6uyaC');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -50,4 +74,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-02-12  6:06:16
+-- Dump completed on 2026-02-13 21:26:12
