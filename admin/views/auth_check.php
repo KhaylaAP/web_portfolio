@@ -32,15 +32,22 @@ $currentUser = $permissionController->getCurrentUser();
 // Determine current page code from the requesting page
 // Parse the current file to determine page code
 $current_file = basename($_SERVER['PHP_SELF']);
-$page_mappings = [
-    'projects.php' => 'projects',
-    'my_skills.php' => 'skills',
-    'portfolio.php' => 'portfolio',
-    'about.php' => 'about',
-    'index.php' => 'home'
-];
+$current_path = $_SERVER['PHP_SELF'];
 
-$current_page_code = $page_mappings[$current_file] ?? 'unknown';
+// Check if this is the migrate page by checking the path
+if (strpos($current_path, '/admin/migrate/') !== false) {
+    $current_page_code = 'migrate';
+} else {
+    $page_mappings = [
+        'projects.php' => 'projects',
+        'my_skills.php' => 'skills',
+        'portfolio.php' => 'portfolio',
+        'about.php' => 'about',
+        'users.php' => 'users',
+        'index.php' => 'home'
+    ];
+    $current_page_code = $page_mappings[$current_file] ?? 'unknown';
+}
 
 // Get page information
 $page_info = $permissionController->getPageByCode($current_page_code);

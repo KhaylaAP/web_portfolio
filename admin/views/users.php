@@ -105,6 +105,12 @@ $messageType = '';
                                 <p>Users</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="../migrate/index.php" class="nav-link">
+                                <i class="nav-icon bi bi-arrow-repeat"></i>
+                                <p>Migrate</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
