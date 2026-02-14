@@ -1,12 +1,16 @@
 <?php
 session_start();
 require_once '../../config/database.php';
+require_once '../../config/action_validator.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
+
+// Initialize validator for projects page
+$validator = new ActionValidator('projects');
 
 $database = new Database();
 $conn = $database->getConnection();
@@ -32,6 +36,14 @@ $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 switch ($action) {
     case 'add':
+        // Validate permission
+        $permissionCheck = $validator->validateCreate();
+        if (!$permissionCheck['allowed']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         // Validate required fields
         $required = ['title', 'category', 'period', 'description'];
         foreach ($required as $field) {
@@ -85,6 +97,14 @@ switch ($action) {
         break;
         
     case 'edit':
+        // Validate permission
+        $permissionCheck = $validator->validateUpdate();
+        if (!$permissionCheck['allowed']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         // Validate required fields
         $required = ['id', 'title', 'category', 'period', 'description'];
         foreach ($required as $field) {

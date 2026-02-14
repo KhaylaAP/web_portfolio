@@ -2,6 +2,9 @@
 require_once '../check_session.php';
 require_once '../../config/database.php';
 
+// Include authentication and permission check view
+require_once 'auth_check.php';
+
 $database = new Database();
 $conn = $database->getConnection();
 
@@ -271,6 +274,12 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a href="projects.php" class="nav-link active">
                                 <i class="nav-icon bi bi-images"></i>
                                 <p>Projects</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="users.php" class="nav-link">
+                                <i class="nav-icon bi bi-people"></i>
+                                <p>Users</p>
                             </a>
                         </li>
                     </ul>
@@ -785,5 +794,7 @@ $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     </script>
+    <!-- Permission Manager Script -->
+    <script src="../../assets/js/permission-manager.js"></script>
 </body>
 </html>

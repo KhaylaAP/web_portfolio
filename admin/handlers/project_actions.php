@@ -1,8 +1,12 @@
 <?php
 require_once '../../config/database.php';
 require_once '../check_session.php';
+require_once '../../config/action_validator.php';
 
 header('Content-Type: application/json');
+
+// Initialize validator for projects page
+$validator = new ActionValidator('projects');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -29,6 +33,13 @@ $db->exec($createTable);
 
 switch($action) {
     case 'list':
+        // Check read permission
+        $permissionCheck = $validator->validateRead();
+        if (!$permissionCheck['allowed']) {
+            echo json_encode(['status' => 'error', 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         $query = "SELECT * FROM projects ORDER BY created_at DESC";
         $stmt = $db->prepare($query);
         $stmt->execute();
@@ -37,6 +48,13 @@ switch($action) {
         break;
         
     case 'get':
+        // Check read permission
+        $permissionCheck = $validator->validateRead();
+        if (!$permissionCheck['allowed']) {
+            echo json_encode(['status' => 'error', 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         $id = isset($_GET['id']) ? $_GET['id'] : 0;
         $query = "SELECT * FROM projects WHERE id = ?";
         $stmt = $db->prepare($query);
@@ -46,7 +64,22 @@ switch($action) {
         break;
         
     case 'save':
+        // Check create or update permission based on whether ID exists
         $id = isset($_POST['id']) ? $_POST['id'] : '';
+        
+        if (empty($id)) {
+            // Create new project - check CREATE permission
+            $permissionCheck = $validator->validateCreate();
+        } else {
+            // Update existing project - check UPDATE permission
+            $permissionCheck = $validator->validateUpdate();
+        }
+        
+        if (!$permissionCheck['allowed']) {
+            echo json_encode(['status' => 'error', 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         $title = isset($_POST['title']) ? trim($_POST['title']) : '';
         $description = isset($_POST['description']) ? trim($_POST['description']) : '';
         $category = isset($_POST['category']) ? trim($_POST['category']) : '';
@@ -81,6 +114,13 @@ switch($action) {
         break;
         
     case 'delete':
+        // Check delete permission
+        $permissionCheck = $validator->validateDelete();
+        if (!$permissionCheck['allowed']) {
+            echo json_encode(['status' => 'error', 'message' => $permissionCheck['message']]);
+            exit;
+        }
+        
         $id = isset($_GET['id']) ? $_GET['id'] : 0;
         
         // Delete from database

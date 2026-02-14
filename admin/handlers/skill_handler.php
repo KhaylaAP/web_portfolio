@@ -1,6 +1,10 @@
 <?php
 require_once '../check_session.php';
 require_once '../../config/database.php';
+require_once '../../config/action_validator.php';
+
+// Initialize validator for skills page
+$validator = new ActionValidator('skills');
 
 $database = new Database();
 $conn = $database->getConnection();
@@ -10,6 +14,13 @@ $action = isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? 
 if ($conn) {
     try {
         if ($action === 'add' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validate permission
+            $permissionCheck = $validator->validateCreate();
+            if (!$permissionCheck['allowed']) {
+                header('Location: ../views/my_skills.php?error=permission_denied');
+                exit;
+            }
+            
             $category = isset($_POST['category']) ? trim($_POST['category']) : '';
             $skill_detail = isset($_POST['skill_detail']) ? trim($_POST['skill_detail']) : '';
             $proficiency = isset($_POST['proficiency']) ? intval($_POST['proficiency']) : 0;
@@ -22,6 +33,13 @@ if ($conn) {
                 exit;
             }
         } elseif ($action === 'edit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validate permission
+            $permissionCheck = $validator->validateUpdate();
+            if (!$permissionCheck['allowed']) {
+                header('Location: ../views/my_skills.php?error=permission_denied');
+                exit;
+            }
+            
             $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
             $category = isset($_POST['category']) ? trim($_POST['category']) : '';
             $skill_detail = isset($_POST['skill_detail']) ? trim($_POST['skill_detail']) : '';
@@ -35,6 +53,13 @@ if ($conn) {
                 exit;
             }
         } elseif ($action === 'delete' && isset($_GET['id'])) {
+            // Validate permission
+            $permissionCheck = $validator->validateDelete();
+            if (!$permissionCheck['allowed']) {
+                header('Location: ../views/my_skills.php?error=permission_denied');
+                exit;
+            }
+            
             $id = intval($_GET['id']);
             if ($id > 0) {
                 $query = "DELETE FROM skills WHERE id = ?";

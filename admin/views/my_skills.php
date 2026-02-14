@@ -2,6 +2,9 @@
 require_once '../check_session.php';
 require_once '../../config/database.php';
 
+// Include authentication and permission check view
+require_once 'auth_check.php';
+
 $database = new Database();
 $conn = $database->getConnection();
 
@@ -177,9 +180,15 @@ if ($conn) {
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./projects.html" class="nav-link">
+                <a href="./projects.php" class="nav-link">
                   <i class="nav-icon bi bi-images"></i>
                   <p>Projects</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./users.php" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>Users</p>
                 </a>
               </li>
             </ul>
@@ -439,6 +448,8 @@ if ($conn) {
       }
     </script>
     <!--end::OverlayScrollbars Configure-->
+    <!-- Permission Manager Script -->
+    <script src="../../assets/js/permission-manager.js"></script>
     <!--end::Script-->
   </body>
   <!--end::Body-->
