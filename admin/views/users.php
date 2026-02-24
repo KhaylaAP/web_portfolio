@@ -7,10 +7,10 @@ require_once '../../config/action_validator.php';
 require_once 'auth_check.php';
 
 $validator = new ActionValidator('users');
-$permCheck = $validator->validateRead();
-if (!$permCheck['allowed']) {
-    die('Access Denied: ' . htmlspecialchars($permCheck['message']));
-}
+// $permCheck = $validator->validateRead();
+// if (!$permCheck['allowed']) {
+//     die('Access Denied: ' . htmlspecialchars($permCheck['message']));
+// }
 
 $database = new Database();
 $conn = $database->getConnection();

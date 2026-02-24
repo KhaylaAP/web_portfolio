@@ -52,8 +52,13 @@ if (strpos($current_path, '/admin/migrate/') !== false) {
 // Get page information
 $page_info = $permissionController->getPageByCode($current_page_code);
 
-// Check if user has access to this page (at least view permission)
-$has_view_permission = $permissionController->hasPermission('view_' . $current_page_code, $current_page_code);
+// Convert plural page code to singular for permission matching
+$permission_page = rtrim($current_page_code, 's');
+
+$has_view_permission = $permissionController->hasPermission(
+    'view_' . $permission_page,
+    $current_page_code
+);
 
 // If no view permission, deny access
 if (!$has_view_permission && $current_page_code !== 'unknown') {
