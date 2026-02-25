@@ -258,10 +258,11 @@ if ($conn) {
                         <?php echo htmlspecialchars($error); ?>
                       </div>
                     <?php endif; ?>
-                    <table class="table table-bordered table-striped">
-                      <thead>
-                        <tr>
-                          <th style="width: 10px">#</th>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th style="width: 10px">#</th>
                           <th>Category</th>
                           <th>Skill Detail</th>
                           <th>Proficiency</th>
@@ -301,6 +302,7 @@ if ($conn) {
                         <?php endif; ?>
                       </tbody>
                     </table>
+                    </div>
                   </div>
                   <!-- /.card-body -->
                 </div>

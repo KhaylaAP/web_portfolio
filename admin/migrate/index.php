@@ -315,6 +315,7 @@ class MigrationRunner {
                                             </div>
                                             
                                             <h4 class='mt-4'>📋 Migration Files</h4>
+                                            <div class='table-responsive'>
                                             <table class='table table-bordered'>
                                                 <thead class='table-light'>
                                                     <tr>
@@ -341,6 +342,7 @@ class MigrationRunner {
         
         $html .= "                        </tbody>
                                             </table>
+                                            </div>
                                             
                                             <h4 class='mt-4'>📜 Migration Log</h4>
                                             <pre class='bg-light p-3' style='max-height: 300px; overflow-y: auto;'>";
