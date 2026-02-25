@@ -92,7 +92,7 @@ switch($action) {
         
         if (empty($id)) {
             // Insert new project
-            $query = "INSERT INTO projects (title, description, category, image) VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO `projects` (`title`, `description`, `category`, `image`) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
             
             if ($stmt->execute([$title, $description, $category, $image])) {
@@ -102,7 +102,7 @@ switch($action) {
             }
         } else {
             // Update existing project
-            $query = "UPDATE projects SET title = ?, description = ?, category = ?, image = ? WHERE id = ?";
+            $query = "UPDATE `projects` SET `title` = ?, `description` = ?, `category` = ?, `image` = ? WHERE `id` = ?";
             $stmt = $db->prepare($query);
             
             if ($stmt->execute([$title, $description, $category, $image, $id])) {

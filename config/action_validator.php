@@ -21,7 +21,8 @@ class ActionValidator {
      * @return array ['allowed' => bool, 'message' => string]
      */
     public function validateCreate() {
-        $permission_code = 'add_' . $this->page_code;
+        $permission_page = rtrim($this->page_code, 's');
+        $permission_code = 'add_' . $permission_page;
         
         if (!$this->permissionController->hasPermission($permission_code, $this->page_code)) {
             return [
@@ -37,7 +38,8 @@ class ActionValidator {
      * Validate if user can perform READ action
      */
     public function validateRead() {
-        $permission_code = 'view_' . $this->page_code;
+        $permission_page = rtrim($this->page_code, 's');
+        $permission_code = 'view_' . $permission_page;
         
         if (!$this->permissionController->hasPermission($permission_code, $this->page_code)) {
             return [
@@ -53,7 +55,8 @@ class ActionValidator {
      * Validate if user can perform UPDATE action
      */
     public function validateUpdate() {
-        $permission_code = 'edit_' . $this->page_code;
+        $permission_page = rtrim($this->page_code, 's');
+        $permission_code = 'edit_' . $permission_page;
         
         if (!$this->permissionController->hasPermission($permission_code, $this->page_code)) {
             return [
@@ -69,7 +72,8 @@ class ActionValidator {
      * Validate if user can perform DELETE action
      */
     public function validateDelete() {
-        $permission_code = 'delete_' . $this->page_code;
+        $permission_page = rtrim($this->page_code, 's');
+        $permission_code = 'delete_' . $permission_page;
         
         if (!$this->permissionController->hasPermission($permission_code, $this->page_code)) {
             return [

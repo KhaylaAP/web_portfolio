@@ -189,7 +189,8 @@ $_SESSION['last_activity'] = time();
      * Verify authentication with server every 10 seconds
      */
     function verifyAuthentication() {
-        fetch('/admin/handlers/auth_verify.php', {
+        // Use relative path since this is included from admin/views/ and admin/migrate/
+        fetch('../handlers/auth_verify.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -202,12 +203,14 @@ $_SESSION['last_activity'] = time();
         .then(data => {
             if (!data.authenticated) {
                 // Session expired, redirect to login
-                window.location.href = '/admin/login.php?expired=1';
+                window.location.href = '../login.php?expired=1';
             }
         })
         .catch(error => {
-            console.warn('Auth verification failed:', error);
-            // Continue operation on network error
+            // Ignore abort errors which happen during page unload
+            if (error.name !== 'AbortError' && !error.message.includes('aborted')) {
+                console.warn('Auth verification failed:', error.message || error);
+            }
         });
     }
     

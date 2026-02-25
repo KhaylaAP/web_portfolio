@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 require_once '../../config/action_validator.php';
 
 // Check if user is logged in
@@ -8,6 +8,9 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Initialize validator for projects page
 $validator = new ActionValidator('projects');
@@ -75,7 +78,7 @@ switch ($action) {
         }
         
         // Insert into database
-        $query = "INSERT INTO projects (title, category, description, period, image) 
+        $query = "INSERT INTO `projects` (`title`, `category`, `description`, `period`, `image`) 
                   VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
         
@@ -144,13 +147,13 @@ switch ($action) {
         }
         
         // Update database
-        $query = "UPDATE projects SET 
-                  title = ?, 
-                  category = ?, 
-                  description = ?, 
-                  period = ?,
-                  image = ?
-                  WHERE id = ?";
+        $query = "UPDATE `projects` SET 
+                  `title` = ?, 
+                  `category` = ?, 
+                  `description` = ?, 
+                  `period` = ?,
+                  `image` = ?
+                  WHERE `id` = ?";
         $stmt = $conn->prepare($query);
         
         if ($stmt->execute([

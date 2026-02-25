@@ -1,42 +1,39 @@
 <?php
-/**
- * Auth Verify Handler
- * AJAX endpoint called every 10 seconds to verify user authentication
- * Returns JSON with authentication status
- */
 
-require_once __DIR__ . '/../../config/permission_controller.php';
+// Always start session first
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+// Force JSON response
 header('Content-Type: application/json');
 
+// Prevent PHP warnings from corrupting JSON
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Default response
+$response = [
+    'authenticated' => false,
+    'user' => null
+];
+
 try {
-    $permissionController = new PermissionController();
-    
-    // Check if user is authenticated
-    $is_authenticated = $permissionController->isAuthenticated();
-    
-    if ($is_authenticated) {
-        $user = $permissionController->getCurrentUser();
-        
-        echo json_encode([
-            'authenticated' => true,
-            'user_id' => $user['id'],
-            'username' => $user['username'],
-            'timestamp' => time()
-        ]);
-    } else {
-        echo json_encode([
-            'authenticated' => false,
-            'message' => 'Session expired or user not logged in',
-            'timestamp' => time()
-        ]);
+
+    if (isset($_SESSION['user_id'])) {
+        $response['authenticated'] = true;
+
+        $response['user'] = [
+            'id' => $_SESSION['user_id'],
+            'username' => $_SESSION['username'] ?? null,
+            'role' => $_SESSION['role'] ?? null
+        ];
     }
+
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode([
-        'authenticated' => false,
-        'error' => $e->getMessage(),
-        'timestamp' => time()
-    ]);
+    $response['authenticated'] = false;
 }
-?>
+
+// Output ONLY JSON
+echo json_encode($response);
+exit;
