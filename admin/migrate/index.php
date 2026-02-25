@@ -217,7 +217,7 @@ class MigrationRunner {
                             <ul class='nav sidebar-menu flex-column' data-lte-toggle='treeview'>
                                 <li class='nav-item'>
                                     <a href='../index.html' class='nav-link'>
-                                        <i class='nav-icon bi bi-speedometer'></i>
+                                        <i class='nav-icon bi bi-speedometer2'></i>
                                         <p>Dashboard</p>
                                     </a>
                                 </li>

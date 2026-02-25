@@ -169,7 +169,7 @@ if ($conn) {
             >
               <li class="nav-item">
                 <a href="../index.html" class="nav-link">
-                  <i class="nav-icon bi bi-speedometer"></i>
+                  <i class="nav-icon bi bi-speedometer2"></i>
                   <p>Dashboard</p>
                 </a>
               </li>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: sql201.infinityfree.com
--- Generation Time: Feb 25, 2026 at 04:17 PM
+-- Generation Time: Feb 25, 2026 at 04:23 PM
 -- Server version: 11.4.10-MariaDB
 -- PHP Version: 7.2.22
 
@@ -141,7 +141,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `title`, `description`, `period`, `category`, `image`, `created_at`, `updated_at`) VALUES
-(6, 'Jeans Inventory System', 'Jeans Inventory System', '2025', 'Website', 'project_1772054195_699f66b325502.png', '2026-02-25 21:16:35', '2026-02-25 21:16:35');
+(1, 'Jeans Inventory System', 'Jeans Inventory System', '2025', 'Website', 'project_1772054195_699f66b325502.png', '2026-02-25 21:16:35', '2026-02-25 21:22:13'),
+(7, 'Project Sekai Database App', 'Database for Project Sekai Characters made in Android Studio', '2025', 'Mobile App', 'project_1772054589_699f683ddf546.png', '2026-02-25 21:23:10', '2026-02-25 21:23:10');
 
 -- --------------------------------------------------------
 
@@ -436,13 +437,13 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `skills`
 --
 ALTER TABLE `skills`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `users`

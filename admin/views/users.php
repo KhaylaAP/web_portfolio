@@ -31,6 +31,9 @@ $messageType = '';
     <meta charset="utf-8">
     <title>Manage Users</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
     <link rel="stylesheet" href="../css/adminlte.css">
     <style>
         .action-btn { margin-right: 6px; }
@@ -83,7 +86,7 @@ $messageType = '';
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview">
                         <li class="nav-item">
                             <a href="../index.html" class="nav-link">
-                                <i class="nav-icon bi bi-speedometer"></i>
+                                <i class="nav-icon bi bi-speedometer2"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
